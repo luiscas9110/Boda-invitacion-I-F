@@ -9,15 +9,34 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
 
-<script>
-  window.history.scrollRestoration = "manual";
-
-  window.addEventListener("load", function () {
-    window.scrollTo(0, 0);
-  });
-</script>
 </head>
 <body>
+
+<!-- Portada de apertura -->
+<div class="opening-cover" id="openingCover" aria-label="Portada de invitación">
+  <div class="opening-decoration opening-decoration-left" aria-hidden="true">❦</div>
+  <div class="opening-decoration opening-decoration-right" aria-hidden="true">❧</div>
+
+  <div class="opening-inner">
+    <div class="opening-eyebrow">Nuestra boda</div>
+
+    <div class="opening-seal" aria-hidden="true">
+      <span>I</span><small>&amp;</small><span>F</span>
+    </div>
+
+    <div class="opening-names serif">Ivonne &amp; Fernando</div>
+    <div class="opening-date">5 · DICIEMBRE · 2026</div>
+    <div class="opening-place">Girardota · Antioquia</div>
+
+    <button class="opening-button" id="openInvitation" type="button">
+      <span>Abrir invitación</span>
+      <span class="opening-arrow">↓</span>
+    </button>
+
+    <div class="opening-hint">Con amor, esperamos compartir este día contigo</div>
+  </div>
+</div>
+
 <!-- Proyecto organizado: estilos en css/styles.css y recursos en assets/ -->
 <header id="header"><div class="container nav">
 <a class="logo" href="#">I & F</a>
@@ -87,24 +106,9 @@
 </div></section>
 
 <section class="section alt"><div class="container">
-<div class="section-head">
-
-  <div class="eyebrow">Vestimenta libre</div>
-
-<h2 class="serif">VESTIMENTA LIBRE</h2>
-
-<p>
-  <em>Queremos que disfrutes este día tanto como nosotros.</em>
-</p>
-
-<p>
-  Ven con el estilo que te haga sentir cómodo, especial y feliz.
-</p>
-
-<p>
-  Lo más importante es compartir, celebrar y disfrutar juntos. 🤍
-</p>
-  </section>
+<div class="section-head"><div class="eyebrow">Código de vestimenta</div><h2 class="serif">Formal elegante</h2><p>Queremos que todos luzcan espectaculares. Te sugerimos tonos elegantes y, por favor, evitar el color blanco.</p></div>
+<div class="dress"><div class="swatch"><i style="background:#1c1814"></i>Negro</div><div class="swatch"><i style="background:#3d3228"></i>Café oscuro</div><div class="swatch"><i style="background:#4a4e5a"></i>Gris</div><div class="swatch"><i style="background:#1c2e4a"></i>Azul marino</div><div class="swatch"><i style="background:#7d6b5d"></i>Nude</div><div class="swatch"><i style="background:#3b2d35"></i>Vino</div></div>
+</div></section>
 
 <section class="section" id="rsvp"><div class="container"><div class="rsvp">
 <div class="eyebrow">Confirmación de asistencia</div><h2 class="serif">¿Nos acompañas?</h2><p>Tu presencia será el regalo más hermoso. Por favor confirma tu asistencia antes del <strong>01 de noviembre de 2026</strong>.</p><button class="btn gold" id="openRsvp" type="button">Confirmar asistencia ↗</button></div></div></section>
@@ -388,6 +392,35 @@ rsvpForm?.addEventListener('submit',async(e)=>{
     rsvpSubmit.textContent='Enviar confirmación';
     rsvpSubmitError.textContent='No pudimos enviar la confirmación. Revisa tu conexión e inténtalo nuevamente.';
   }
+});
+
+
+// Portada de apertura: una interacción del usuario permite iniciar la experiencia y la música.
+const openingCover=document.getElementById('openingCover');
+const openInvitation=document.getElementById('openInvitation');
+
+document.body.classList.add('cover-open');
+
+openInvitation?.addEventListener('click', async ()=>{
+  openingCover.classList.add('is-closing');
+  document.body.classList.remove('cover-open');
+  window.history.scrollRestoration='manual';
+  window.scrollTo({top:0,left:0,behavior:'instant'});
+
+  const music=document.getElementById('music');
+  if(music){
+    try{
+      music.muted=false;
+      await music.play();
+    }catch(e){
+      // El navegador puede requerir una segunda interacción para reproducir audio.
+    }
+  }
+
+  setTimeout(()=>{
+    openingCover.remove();
+    window.scrollTo(0,0);
+  },850);
 });
 
 </script>
